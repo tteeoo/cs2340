@@ -41,7 +41,6 @@ mainLoop:
 		
 		
 		jal checkWin # Checks if user has won
-		addi $v0, $zero, 1
 	beqz $v0, eventLoop
 	
 jal playAgain
