@@ -6,12 +6,12 @@
 .include	"SysCalls.asm"
 .data
 	# Data segment
-	displayMatrix: .asciiz "04x3001204x4002005x405x50012002001x204x5002503x400080002001602x4"
+	displayMatrix: .space 512 # This will be randomly generated from the bank
 	binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-	valueMatrix: .word 12,12,16,20,20,25,12,20,2,20,25,12,8,2,16,8
-	RO_displayMatrix: .asciiz "04x3001204x4002005x405x50012002001x204x5002503x400080002001602x4"
-	RO_binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-	RO_valueMatrix: .word 12,12,16,20,20,25,12,20,2,20,25,12,8,2,16,8
+	valueMatrix: .space 512 # This will be randomly generated from the bank
+	BANK_displayMatrix: .asciiz "04x3001204x4002005x405x50012002001x204x5002503x400080002001602x4"
+	BANK_binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	BANK_valueMatrix: .word 12,12,16,20,20,25,12,20,2,20,25,12,8,2,16,8
 	rowPrompt: .asciiz "Enter the first cell number you would like to select (1-16) \n"
 	colPrompt: .asciiz "Enter the second cell number you would like to select (1-16) \n"
 	selectedText: .asciiz "You have selected Cells: "
@@ -23,6 +23,7 @@
 	yes: .asciiz "Y"
 	no: .asciiz "N"
 	answer: .space 100
+	clearScreen: .asciiz "\n\n\n\n\n\n\n\n\n\n\n\n"
 	
 
 .text
@@ -30,16 +31,16 @@ mainLoop:
 	li $v0, 30 # System Time
 	syscall
 	move $s7, $a0 # Store starting time in $s7
-	
-	
+	jal clearScreenFunc
+	jal randomize
 	eventLoop:
-		
 		jal parseInput # Take user inputs and processes them
+		
+		
+		
+		
+		#jal clearScreenFunc
 		jal showTime # Displays elapsed time
-		
-		
-		
-		
 		jal checkWin # Checks if user has won
 	beqz $v0, eventLoop
 	
@@ -231,3 +232,43 @@ jr $ra
 noPath:
 	addi $v0, $zero, 1
 jr $ra
+
+clearScreenFunc:
+	li $v0, SysPrintString
+	la $a0, clearScreen
+	syscall
+jr $ra
+
+randomize:
+	li $t0, 0 # Array index
+	la $t1, displayMatrix # Load address of display matrix
+	la $t2, valueMatrix # Load address of value matrix
+	la $t3, BANK_displayMatrix
+	la $t4, BANK_valueMatrix
+	randLoop:
+		li $v0, SysRandIntRange
+		li $a1, 16
+		syscall
+		
+		mul $a0, $a0, 4 # Convert from number to address
+		add $t3, $t3, $a0 # Increment bank adressess
+		add $t4, $t4, $a0
+		
+		lw $t5, 0($t3) # Pick random value from display bank
+		sw $t5, 0($t1) # Put that in current slot of real display matrix
+		
+		lw $t5, 0($t4) # Pick random value from value bank
+		sw $t5, 0($t2) # Put that in current slot of real value matrix
+		
+		addi $t1,$t1,4 # Increment address
+		addi $t2,$t2,4 # Increment address
+		addi $t0,$t0,1 # Increment counter
+		
+		sub $t3, $t3, $a0 # Reset bank address
+		sub $t4, $t4, $a0
+		
+	blt $t0,16,randLoop
+	
+	
+jr $ra
+	
