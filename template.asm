@@ -18,7 +18,7 @@
 	comma: .asciiz " and "
 	newLine: .asciiz "\n"
 	continueText: .asciiz "You have not found all matches so the game will continue\n"
-	timeFormat: .asciiz "00:00"
+	timeFormat: .asciiz "00:00 Elapsed"
 	playAgainText: .asciiz "Would you like to play again? 0 = Play Again, 1 = Quit \n"
 	yes: .asciiz "Y"
 	no: .asciiz "N"
@@ -27,6 +27,7 @@
 	
 
 .text
+.globl mainLoop
 mainLoop:
 	li $v0, 30 # System Time
 	syscall
@@ -35,11 +36,9 @@ mainLoop:
 	jal randomize
 	eventLoop:
 		jal parseInput # Take user inputs and processes them
-		
-		
-		
-		
 		#jal clearScreenFunc
+		
+		
 		jal showTime # Displays elapsed time
 		jal checkWin # Checks if user has won
 	beqz $v0, eventLoop
@@ -58,6 +57,9 @@ parseInput:
 	li $v0, SysReadInt # Read in Cell #1 Number
 	syscall
 
+	blt $v0, 1, parseInput # Input validation
+	bgt $v0, 16, parseInput
+
 	move $s0,$v0 # Save Cell #1 value to $s0
 
 	li $v0, SysPrintString # Prompt for Cell #2 Number
@@ -66,6 +68,9 @@ parseInput:
 	
 	li $v0, SysReadInt # Read in Cell #2 value
 	syscall
+	
+	blt $v0, 1, parseInput # Input validation
+	bgt $v0, 16, parseInput
 	
 	move $s1,$v0 # Save Cell #2 value to $s1
 	
