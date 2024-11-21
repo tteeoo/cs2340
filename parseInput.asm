@@ -1,3 +1,9 @@
+.data
+	rowPrompt: .asciiz "Enter the first cell number you would like to select (1-16) \n"
+	colPrompt: .asciiz "Enter the second cell number you would like to select (1-16) \n"
+	selectedText: .asciiz "You have selected Cells: "
+	comma: .asciiz " and "
+.text
 parseInput:
 	li $v0, SysPrintString # Prompt for Cell #1 Number
 	la $a0, rowPrompt
@@ -5,6 +11,7 @@ parseInput:
 
 	li $v0, SysReadInt # Read in Cell #1 Number
 	syscall
+	
 
 	blt $v0, 1, parseInput # Input validation
 	bgt $v0, 16, parseInput
