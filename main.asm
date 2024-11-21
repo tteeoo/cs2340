@@ -7,11 +7,9 @@
 .data
 	# Data segment
 	displayMatrix: .space 64 # This will be randomly generated from the bank
-	binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 # Stores 1 or 0 if a card should be displayed
 	valueMatrix: .space 64 # This will be randomly generated from the bank
-
 	newLine: .asciiz "\n"
-  cell: .asciiz "  ? "
 
 .text
 .globl mainLoop
