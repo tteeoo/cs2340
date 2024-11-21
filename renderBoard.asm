@@ -1,3 +1,6 @@
+.data
+	cell: .asciiz "  ? "
+
 renderBoard:
 	# Enter cellLoop to print each cell
 	li $t0, 0 # Counter for the loop

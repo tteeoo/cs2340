@@ -3,6 +3,7 @@
 	colPrompt: .asciiz "Enter the second cell number you would like to select (1-16) \n"
 	selectedText: .asciiz "You have selected Cells: "
 	comma: .asciiz " and "
+
 .text
 parseInput:
 	li $v0, SysPrintString # Prompt for Cell #1 Number
