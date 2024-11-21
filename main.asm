@@ -9,23 +9,10 @@
 	displayMatrix: .space 64 # This will be randomly generated from the bank
 	binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	valueMatrix: .space 64 # This will be randomly generated from the bank
-	BANK_displayMatrix: .asciiz "04x3001204x4002005x405x50012002001x204x5002503x400080002001602x4"
-	BANK_binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-	BANK_valueMatrix: .word 12,12,16,20,20,25,12,20,2,20,25,12,8,2,16,8
-	rowPrompt: .asciiz "Enter the first cell number you would like to select (1-16) \n"
-	colPrompt: .asciiz "Enter the second cell number you would like to select (1-16) \n"
-	selectedText: .asciiz "You have selected Cells: "
-	comma: .asciiz " and "
+
 	newLine: .asciiz "\n"
-	continueText: .asciiz "You have not found all matches so the game will continue\n"
-	timeFormat: .asciiz "00:00 Elapsed"
-	playAgainText: .asciiz "Would you like to play again? 0 = Play Again, 1 = Quit \n"
-	yes: .asciiz "Y"
-	no: .asciiz "N"
-	answer: .space 100
-	clearScreen: .asciiz "\n\n\n\n\n\n\n\n\n\n\n\n"
-	cell: .asciiz "  ? "
-	
+  cell: .asciiz "  ? "
+
 .text
 .globl mainLoop
 mainLoop:

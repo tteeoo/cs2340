@@ -1,3 +1,10 @@
+.data
+	continueText: .asciiz "You have not found all matches so the game will continue\n"
+	playAgainText: .asciiz "Would you like to play again? 0 = Play Again, 1 = Quit \n"
+	yes: .asciiz "Y"
+	no: .asciiz "N"
+	answer: .space 100
+.text
 checkWin:
 	# Returns:	
 	# 0 = Continue Game
