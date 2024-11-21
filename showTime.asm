@@ -1,3 +1,7 @@
+.data
+	timeFormat: .asciiz "00:00 Elapsed"
+
+.text
 showTime:
 	li $v0, 30 # System Time
 	syscall
