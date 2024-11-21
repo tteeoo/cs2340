@@ -6,9 +6,9 @@
 .include	"SysCalls.asm"
 .data
 	# Data segment
-	displayMatrix: .space 512 # This will be randomly generated from the bank
+	displayMatrix: .space 64 # This will be randomly generated from the bank
 	binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-	valueMatrix: .space 512 # This will be randomly generated from the bank
+	valueMatrix: .space 64 # This will be randomly generated from the bank
 	BANK_displayMatrix: .asciiz "04x3001204x4002005x405x50012002001x204x5002503x400080002001602x4"
 	BANK_binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	BANK_valueMatrix: .word 12,12,16,20,20,25,12,20,2,20,25,12,8,2,16,8
@@ -24,8 +24,8 @@
 	no: .asciiz "N"
 	answer: .space 100
 	clearScreen: .asciiz "\n\n\n\n\n\n\n\n\n\n\n\n"
+	cell: .asciiz "  ? "
 	
-
 .text
 .globl mainLoop
 mainLoop:
@@ -36,6 +36,12 @@ mainLoop:
 	eventLoop:
 		jal renderBoard # Display the game board
 		jal parseInput # Take user inputs and processes them
+		
+		# Move the output of parseInput (selected cells) into the arguments for setMatrix
+		move $a0, $v0
+		move $a1, $v1
+		
+		jal setMatrix # Check for value of selected cells and set matrices accordingly
 		jal showTime # Displays elapsed time
 		jal checkWin # Checks if user has won
 	beqz $v0, eventLoop
@@ -48,6 +54,7 @@ syscall
 
 .include 	"renderBoard.asm"
 .include 	"parseInput.asm"
+.include 	"setMatrix.asm"
 .include	"showTIme.asm"
 .include	"checkWin.asm"
 .include	"randomize.asm"
