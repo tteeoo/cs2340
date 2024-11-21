@@ -19,8 +19,8 @@ mainLoop:
 	jal randomize
 	eventLoop:
 		jal renderBoard # Display the game board
-		jal parseInput # Take user inputs and processes them
 		jal showTime # Displays elapsed time
+		jal parseInput # Take user inputs and processes them
 		jal checkWin # Checks if user has won
 	beqz $v0, eventLoop
 	
@@ -31,7 +31,7 @@ li $v0, SysExit	# syscall: exit
 syscall
 
 .include 	"renderBoard.asm"
-.include 	"parseInput.asm"
-.include	"showTIme.asm"
 .include	"checkWin.asm"
+.include 	"parseInput.asm"
+.include	"showTime.asm"
 .include	"randomize.asm"
