@@ -15,4 +15,3 @@
 * Anthony: parse_input - takes a string (or two numbers) and return the address of the cells within the matrix
 * Theo: set_matrix - takes addresses of cells, changes the binary matrix based on the equivalence matrix
 * Anthony: check_win - returns true if the binary matrix is all 1s
-
