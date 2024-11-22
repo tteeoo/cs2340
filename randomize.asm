@@ -1,5 +1,5 @@
 .data
-	BANK_displayMatrix: .asciiz "04x3001204x4002005x405x50012002001x204x5002503x400080002001602x4"
+	BANK_displayMatrix: .asciiz " 4x3  12 4x4  20 5x4 5x5  12  20 1x2 4x5  25 3x4   8   2  16 2x4"
 	BANK_binaryMatrix: .word 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	BANK_valueMatrix: .word 12,12,16,20,20,25,12,20,2,20,25,12,8,2,16,8
 
