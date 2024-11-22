@@ -52,6 +52,16 @@ updateCheckWin:
 	addi $v0, $zero, 0
 jr $ra
 
+resetBinary:
+	# Reset binary matrix
+	li $t0, 0 # Counter for the loop
+	li $t1, 16 # Limit of the loop
+	resetLoop:
+		sll $t2, $t0, 2 # Multiply counter by 4 for offset
+		sw $zero, binaryMatrix($t2) # Set value to 0
+		addi $t0, $t0, 1 # Incremement counter
+	blt $t0, $t1, resetLoop
+jr $ra
 
 playAgain:
 # Return 1 for quit

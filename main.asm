@@ -30,11 +30,11 @@ mainLoop:
 		jal showTime # Displays elapsed time
 		jal checkWin # Checks if user has won
 	beqz $v0, eventLoop
-	
+jal resetBinary
 jal playAgain
 beqz $v0, mainLoop
 
-li $v0, SysExit	# syscall: exit 
+li $v0, SysExit	# syscall: exit
 syscall
 
 .include 	"renderBoard.asm"

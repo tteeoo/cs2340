@@ -56,10 +56,10 @@ randomize:
 		# Copy shuffled content to real matricies
 		lw $t5, 0($t3)
 		sw $t5, 0($t1)
-		 lw $t5, 0($t4)
+		lw $t5, 0($t4)
 		sw $t5, 0($t2)
 		
-		
+	
 		addi $t1, $t1, 4
 		addi $t2, $t2, 4
 		addi $t3, $t3, 4
