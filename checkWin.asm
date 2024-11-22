@@ -1,6 +1,6 @@
 .data
-	continueText: .asciiz "You have not found all matches so the game will continue\n"
-	playAgainText: .asciiz "Would you like to play again? 0 = Play Again 1 = Quit\n"
+	continueText: .asciiz "You have not found all matches so the game will continue\n.."
+	playAgainText: .asciiz "You Win!\nWould you like to play again? 0 = Play Again, 1 = Quit\n"
 	unmatched: .asciiz " unmatched cards\n"
 	answer: .space 100	
 .text

@@ -1,6 +1,7 @@
 .data
 	cell: .asciiz "  ? "
-
+	blank: .ascii  " "
+.text
 renderBoard:
 	# Enter cellLoop to print each cell
 	li $t0, 0 # Counter for the loop
@@ -20,6 +21,9 @@ renderBoard:
 		charLoop:
 			add $t7, $t2, $t5 # Byte = cell + counter
 			lb $a0, 0($t7) # Load char to print
+			
+			beq $a0,48,makeBlank
+			comeBackFromBlank:
 			li $v0, SysPrintChar # Syscall for printing a character
 			syscall
 			addi $t5, $t5, 1 # Incremement counter
@@ -47,3 +51,9 @@ renderBoard:
 		skipNewline:
 	blt $t0, $t1, cellLoop
 jr $ra
+
+makeBlank:
+	la $t8, blank
+	addi $t8, $t8, 21
+	lw $a0, 0($t8)
+b comeBackFromBlank

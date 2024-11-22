@@ -1,11 +1,12 @@
 .data
-	rowPrompt: .asciiz "Enter the first cell number you would like to select (1-16) \n"
-	colPrompt: .asciiz "Enter the second cell number you would like to select (1-16) \n"
+	rowPrompt: .asciiz "Enter the first cell number you would like to select (1-16)\n"
+	colPrompt: .asciiz "Enter the second cell number you would like to select (1-16)\n"
 	selectedText: .asciiz "You have selected Cells: "
 	comma: .asciiz " and "
 
 .text
 parseInput:
+	firstInput:
 	li $v0, SysPrintString # Prompt for Cell #1 Number
 	la $a0, rowPrompt
 	syscall
@@ -14,13 +15,17 @@ parseInput:
 	syscall
 	
 
-	blt $v0, 1, parseInput # Input validation
-	bgt $v0, 16, parseInput
+	blt $v0, 1, firstInput # Input validation
+	bgt $v0, 16, firstInput
 
 	move $t0, $v0 # Save Cell #1 value to $t0
 	# Calculate matrix offset with (Cell# - 1) * 4
 	subi $t2, $t0, 1
 	sll $t2, $t2, 2
+	
+	lw $t7, binaryMatrix($t2) # If the value is already matched then prompt again
+	beq $t7, 1, firstInput
+	
 	# Flip the card up by setting its place in the binary matrix to 1
 	li $t4, 1
 	sw $t4, binaryMatrix($t2)
@@ -35,7 +40,7 @@ parseInput:
 	lw $t0, 4($sp) # Restore $t0
 	lw $t2, 8($sp) # Restore $t2
 	addu $sp, $sp, 12 # Deallocate space
-
+	secondInput:
 	li $v0, SysPrintString # Prompt for Cell #2 Number
 	la $a0, colPrompt
 	syscall
@@ -43,13 +48,17 @@ parseInput:
 	li $v0, SysReadInt # Read in Cell #2 value
 	syscall
 	
-	blt $v0, 1, parseInput # Input validation
-	bgt $v0, 16, parseInput
+	blt $v0, 1, secondInput # Input validation
+	bgt $v0, 16, secondInput
 	
 	move $t1, $v0 # Save Cell #2 value to $t1
 	# Calculate matrix offset with (Cell# - 1) * 4
 	subi $t3, $t1, 1
 	sll $t3, $t3, 2
+	
+	lw $t7, binaryMatrix($t3) # If the value is already matched then prompt again
+	beq $t7, 1, secondInput
+	
 	# Flip the card up by setting its place in the binary matrix to 1
 	li $t4, 1
 	sw $t4, binaryMatrix($t3)
